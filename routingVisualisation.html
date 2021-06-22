@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Mapping Sales Representative Visits</title>
+
+<script src="routingVisualisation_files/header-attrs-2.8/header-attrs.js"></script>
+<script src="routingVisualisation_files/jquery-1.12.4/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="routingVisualisation_files/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="routingVisualisation_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="routingVisualisation_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="routingVisualisation_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="routingVisualisation_files/navigation-1.1/tabsets.js"></script>
+<link href="routingVisualisation_files/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="routingVisualisation_files/highlightjs-9.12.0/highlight.js"></script>
+<script src="routingVisualisation_files/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<link href="routingVisualisation_files/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="routingVisualisation_files/leaflet-1.3.1/leaflet.js"></script>
+<link href="routingVisualisation_files/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="routingVisualisation_files/proj4-2.6.2/proj4.min.js"></script>
+<script src="routingVisualisation_files/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="routingVisualisation_files/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="routingVisualisation_files/leaflet-binding-2.0.4.1/leaflet.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Mapping Sales Representative Visits</h1>
+
+</div>
+
+
+<div id="htmlwidget-764796b1e921643109e1" style="width:672px;height:480px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-764796b1e921643109e1">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addCircleMarkers","args":[51.1506324897063,3.1990353557698,1,null,null,{"interactive":true,"className":"","stroke":true,"color":"red","weight":5,"opacity":0.7,"fill":true,"fillColor":"red","fillOpacity":0.2},null,null,"Loppem<BR><strong>Customer number: <\/strong>40875<BR><strong> Recommended duration of visit (h): <\/strong>0.5<BR><strong> Recommended sequence visit: <\/strong>1<BR><strong> Value of the customer: <\/strong>72177<BR><strong> Quadrant: <\/strong>Nurture<BR><strong> Top: <\/strong>Remain<BR><strong> New customer: <\/strong>FALSE<BR><strong> Sleeping customer: <\/strong>FALSE<BR><strong> Segment: <\/strong>A07<BR><strong> Order trend: <\/strong>-11.69<BR><strong> Profit trend: <\/strong>306.8",null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addCircleMarkers","args":[51.1378007308851,3.20197891492473,1,null,null,{"interactive":true,"className":"","stroke":true,"color":"red","weight":5,"opacity":0.7,"fill":true,"fillColor":"red","fillOpacity":0.2},null,null,"Loppem<BR><strong>Customer number: <\/strong>83705<BR><strong> Recommended duration of visit (h): <\/strong>0.25<BR><strong> Recommended sequence visit: <\/strong>2<BR><strong> Value of the customer: <\/strong>5900<BR><strong> Quadrant: <\/strong>Decrease<BR><strong> Top: <\/strong>Never<BR><strong> New customer: <\/strong>FALSE<BR><strong> Sleeping customer: <\/strong>FALSE<BR><strong> Segment: <\/strong>A05<BR><strong> Order trend: <\/strong>1.63<BR><strong> Profit trend: <\/strong>344.46",null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addCircleMarkers","args":[51.1499555582265,3.20249158960197,1,null,null,{"interactive":true,"className":"","stroke":true,"color":"red","weight":5,"opacity":0.7,"fill":true,"fillColor":"red","fillOpacity":0.2},null,null,"Loppem<BR><strong>Customer number: <\/strong>31009143<BR><strong> Recommended duration of visit (h): <\/strong>0.25<BR><strong> Recommended sequence visit: <\/strong>3<BR><strong> Value of the customer: <\/strong>4590<BR><strong> Quadrant: <\/strong>StatusQuo<BR><strong> Top: <\/strong>Never<BR><strong> New customer: <\/strong>FALSE<BR><strong> Sleeping customer: <\/strong>FALSE<BR><strong> Segment: <\/strong>A05<BR><strong> Order trend: <\/strong>2.43<BR><strong> Profit trend: <\/strong>394.57",null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addCircleMarkers","args":[51.2459911022388,3.10200824785708,1,null,null,{"interactive":true,"className":"","stroke":true,"color":"red","weight":5,"opacity":0.7,"fill":true,"fillColor":"red","fillOpacity":0.2},null,null,"Houtave<BR><strong>Customer number: <\/strong>61349<BR><strong> Recommended duration of visit (h): <\/strong>0.5<BR><strong> Recommended sequence visit: <\/strong>4<BR><strong> Value of the customer: <\/strong>18897<BR><strong> Quadrant: <\/strong>Decrease<BR><strong> Top: <\/strong>Remain<BR><strong> New customer: <\/strong>FALSE<BR><strong> Sleeping customer: <\/strong>TRUE<BR><strong> Segment: <\/strong>A10<BR><strong> Order trend: <\/strong>0.11<BR><strong> Profit trend: <\/strong>248.63",null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addCircleMarkers","args":[51.2049218699482,3.03775068569272,1,null,null,{"interactive":true,"className":"","stroke":true,"color":"red","weight":5,"opacity":0.7,"fill":true,"fillColor":"red","fillOpacity":0.2},null,null,"Ettelgem<BR><strong>Customer number: <\/strong>54633<BR><strong> Recommended duration of visit (h): <\/strong>0.5<BR><strong> Recommended sequence visit: <\/strong>5<BR><strong> Value of the customer: <\/strong>75986<BR><strong> Quadrant: <\/strong>Nurture<BR><strong> Top: <\/strong>Remain<BR><strong> New customer: <\/strong>FALSE<BR><strong> Sleeping customer: <\/strong>FALSE<BR><strong> Segment: <\/strong>A10<BR><strong> Order trend: <\/strong>5.29<BR><strong> Profit trend: <\/strong>3094",null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addCircleMarkers","args":[51.1447474891668,3.05516994131358,1,null,null,{"interactive":true,"className":"","stroke":true,"color":"red","weight":5,"opacity":0.7,"fill":true,"fillColor":"red","fillOpacity":0.2},null,null,"Bekegem<BR><strong>Customer number: <\/strong>31001538<BR><strong> Recommended duration of visit (h): <\/strong>0.25<BR><strong> Recommended sequence visit: <\/strong>6<BR><strong> Value of the customer: <\/strong>9397<BR><strong> Quadrant: <\/strong>StatusQuo<BR><strong> Top: <\/strong>New<BR><strong> New customer: <\/strong>FALSE<BR><strong> Sleeping customer: <\/strong>FALSE<BR><strong> Segment: <\/strong>A10<BR><strong> Order trend: <\/strong>0.09<BR><strong> Profit trend: <\/strong>162.46",null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addCircleMarkers","args":[51.1404882392006,2.72460719201221,1,null,null,{"interactive":true,"className":"","stroke":true,"color":"red","weight":5,"opacity":0.7,"fill":true,"fillColor":"red","fillOpacity":0.2},null,null,"Nieuwpoort<BR><strong>Customer number: <\/strong>96171<BR><strong> Recommended duration of visit (h): <\/strong>0.25<BR><strong> Recommended sequence visit: <\/strong>7<BR><strong> Value of the customer: <\/strong>6390<BR><strong> Quadrant: <\/strong>StatusQuo<BR><strong> Top: <\/strong>Never<BR><strong> New customer: <\/strong>TRUE<BR><strong> Sleeping customer: <\/strong>FALSE<BR><strong> Segment: <\/strong>A01<BR><strong> Order trend: <\/strong>0.71<BR><strong> Profit trend: <\/strong>71.43",null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addCircleMarkers","args":[51.0589501698851,2.97013862650712,1,null,null,{"interactive":true,"className":"","stroke":true,"color":"red","weight":5,"opacity":0.7,"fill":true,"fillColor":"red","fillOpacity":0.2},null,null,"Bovekerke<BR><strong>Customer number: <\/strong>80183<BR><strong> Recommended duration of visit (h): <\/strong>0.5<BR><strong> Recommended sequence visit: <\/strong>8<BR><strong> Value of the customer: <\/strong>31056<BR><strong> Quadrant: <\/strong>Nurture<BR><strong> Top: <\/strong>Remain<BR><strong> New customer: <\/strong>FALSE<BR><strong> Sleeping customer: <\/strong>FALSE<BR><strong> Segment: <\/strong>A10<BR><strong> Order trend: <\/strong>4.31<BR><strong> Profit trend: <\/strong>3665.43",null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addCircleMarkers","args":[51.0634664473661,2.96036641064502,1,null,null,{"interactive":true,"className":"","stroke":true,"color":"red","weight":5,"opacity":0.7,"fill":true,"fillColor":"red","fillOpacity":0.2},null,null,"Bovekerke<BR><strong>Customer number: <\/strong>31001329<BR><strong> Recommended duration of visit (h): <\/strong>0.25<BR><strong> Recommended sequence visit: <\/strong>9<BR><strong> Value of the customer: <\/strong>4681<BR><strong> Quadrant: <\/strong>StatusQuo<BR><strong> Top: <\/strong>Never<BR><strong> New customer: <\/strong>FALSE<BR><strong> Sleeping customer: <\/strong>TRUE<BR><strong> Segment: <\/strong>A04<BR><strong> Order trend: <\/strong>-0.2<BR><strong> Profit trend: <\/strong>-237.83",null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addCircleMarkers","args":[51.0575218936485,3.0902682037289,1,null,null,{"interactive":true,"className":"","stroke":true,"color":"red","weight":5,"opacity":0.7,"fill":true,"fillColor":"red","fillOpacity":0.2},null,null,"Torhout<BR><strong>Customer number: <\/strong>39618<BR><strong> Recommended duration of visit (h): <\/strong>0.25<BR><strong> Recommended sequence visit: <\/strong>10<BR><strong> Value of the customer: <\/strong>4260<BR><strong> Quadrant: <\/strong>Decrease<BR><strong> Top: <\/strong>Leave<BR><strong> New customer: <\/strong>FALSE<BR><strong> Sleeping customer: <\/strong>TRUE<BR><strong> Segment: <\/strong>A05<BR><strong> Order trend: <\/strong>-0.91<BR><strong> Profit trend: <\/strong>230.69",null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addCircleMarkers","args":[51.0664006051669,3.08820781935611,1,null,null,{"interactive":true,"className":"","stroke":true,"color":"red","weight":5,"opacity":0.7,"fill":true,"fillColor":"red","fillOpacity":0.2},null,null,"Torhout<BR><strong>Customer number: <\/strong>62127<BR><strong> Recommended duration of visit (h): <\/strong>0.5<BR><strong> Recommended sequence visit: <\/strong>11<BR><strong> Value of the customer: <\/strong>47520<BR><strong> Quadrant: <\/strong>Nurture<BR><strong> Top: <\/strong>Remain<BR><strong> New customer: <\/strong>FALSE<BR><strong> Sleeping customer: <\/strong>FALSE<BR><strong> Segment: <\/strong>A01<BR><strong> Order trend: <\/strong>7.14<BR><strong> Profit trend: <\/strong>1684.97",null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addCircleMarkers","args":[51.1367133074778,3.05161422831971,1,null,null,{"interactive":true,"className":"","stroke":true,"color":"green","weight":5,"opacity":0.7,"fill":true,"fillColor":"green","fillOpacity":0.2},null,null,"Bekegem<BR><strong>Customer number: <\/strong>40012<BR><strong> Recommended duration of visit (h): <\/strong>0.5<BR><strong> Recommended sequence visit: <\/strong>1<BR><strong> Value of the customer: <\/strong>50029<BR><strong> Quadrant: <\/strong>Nurture<BR><strong> Top: <\/strong>Remain<BR><strong> New customer: <\/strong>FALSE<BR><strong> Sleeping customer: <\/strong>FALSE<BR><strong> Segment: <\/strong>A10<BR><strong> Order trend: <\/strong>1.97<BR><strong> Profit trend: <\/strong>1288.8",null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addCircleMarkers","args":[51.1437992000268,3.05603561928078,1,null,null,{"interactive":true,"className":"","stroke":true,"color":"green","weight":5,"opacity":0.7,"fill":true,"fillColor":"green","fillOpacity":0.2},null,null,"Bekegem<BR><strong>Customer number: <\/strong>74300<BR><strong> Recommended duration of visit (h): <\/strong>0.5<BR><strong> Recommended sequence visit: <\/strong>2<BR><strong> Value of the customer: <\/strong>31181<BR><strong> Quadrant: <\/strong>Nurture<BR><strong> Top: <\/strong>Remain<BR><strong> New customer: <\/strong>FALSE<BR><strong> Sleeping customer: <\/strong>FALSE<BR><strong> Segment: <\/strong>A05<BR><strong> Order trend: <\/strong>9.6<BR><strong> Profit trend: <\/strong>1809.26",null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addCircleMarkers","args":[51.1630430573248,3.18722339715991,1,null,null,{"interactive":true,"className":"","stroke":true,"color":"green","weight":5,"opacity":0.7,"fill":true,"fillColor":"green","fillOpacity":0.2},null,null,"Loppem<BR><strong>Customer number: <\/strong>40394<BR><strong> Recommended duration of visit (h): <\/strong>0.5<BR><strong> Recommended sequence visit: <\/strong>3<BR><strong> Value of the customer: <\/strong>31964<BR><strong> Quadrant: <\/strong>Nurture<BR><strong> Top: <\/strong>Remain<BR><strong> New customer: <\/strong>FALSE<BR><strong> Sleeping customer: <\/strong>FALSE<BR><strong> Segment: <\/strong>A05<BR><strong> Order trend: <\/strong>-0.34<BR><strong> Profit trend: <\/strong>-1024.63",null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addCircleMarkers","args":[51.1566432347184,3.19735505297945,1,null,null,{"interactive":true,"className":"","stroke":true,"color":"green","weight":5,"opacity":0.7,"fill":true,"fillColor":"green","fillOpacity":0.2},null,null,"Loppem<BR><strong>Customer number: <\/strong>40601<BR><strong> Recommended duration of visit (h): <\/strong>1<BR><strong> Recommended sequence visit: <\/strong>4<BR><strong> Value of the customer: <\/strong>108302<BR><strong> Quadrant: <\/strong>Nurture<BR><strong> Top: <\/strong>Remain<BR><strong> New customer: <\/strong>FALSE<BR><strong> Sleeping customer: <\/strong>FALSE<BR><strong> Segment: <\/strong>A01<BR><strong> Order trend: <\/strong>7.26<BR><strong> Profit trend: <\/strong>6545.31",null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addCircleMarkers","args":[51.1588713592411,3.19985497796151,1,null,null,{"interactive":true,"className":"","stroke":true,"color":"green","weight":5,"opacity":0.7,"fill":true,"fillColor":"green","fillOpacity":0.2},null,null,"Loppem<BR><strong>Customer number: <\/strong>31001811<BR><strong> Recommended duration of visit (h): <\/strong>0.25<BR><strong> Recommended sequence visit: <\/strong>5<BR><strong> Value of the customer: <\/strong>3068<BR><strong> Quadrant: <\/strong>StatusQuo<BR><strong> Top: <\/strong>Never<BR><strong> New customer: <\/strong>FALSE<BR><strong> Sleeping customer: <\/strong>FALSE<BR><strong> Segment: <\/strong>A10<BR><strong> Order trend: <\/strong>1.2<BR><strong> Profit trend: <\/strong>163.09",null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addCircleMarkers","args":[51.1589025481246,3.19142236519998,1,null,null,{"interactive":true,"className":"","stroke":true,"color":"green","weight":5,"opacity":0.7,"fill":true,"fillColor":"green","fillOpacity":0.2},null,null,"Loppem<BR><strong>Customer number: <\/strong>31005435<BR><strong> Recommended duration of visit (h): <\/strong>0.25<BR><strong> Recommended sequence visit: <\/strong>6<BR><strong> Value of the customer: <\/strong>3033<BR><strong> Quadrant: <\/strong>StatusQuo<BR><strong> Top: <\/strong>Never<BR><strong> New customer: <\/strong>FALSE<BR><strong> Sleeping customer: <\/strong>FALSE<BR><strong> Segment: <\/strong>A10<BR><strong> Order trend: <\/strong>1.11<BR><strong> Profit trend: <\/strong>304.06",null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addCircleMarkers","args":[51.1512589284232,3.19925639399602,1,null,null,{"interactive":true,"className":"","stroke":true,"color":"blue","weight":5,"opacity":0.7,"fill":true,"fillColor":"blue","fillOpacity":0.2},null,null,"Loppem<BR><strong>Customer number: <\/strong>40670<BR><strong> Recommended duration of visit (h): <\/strong>0.5<BR><strong> Recommended sequence visit: <\/strong>1<BR><strong> Value of the customer: <\/strong>30245<BR><strong> Quadrant: <\/strong>Nurture<BR><strong> Top: <\/strong>Remain<BR><strong> New customer: <\/strong>FALSE<BR><strong> Sleeping customer: <\/strong>FALSE<BR><strong> Segment: <\/strong>A01<BR><strong> Order trend: <\/strong>4.66<BR><strong> Profit trend: <\/strong>661.94",null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addCircleMarkers","args":[51.1495175714627,3.19909990578281,1,null,null,{"interactive":true,"className":"","stroke":true,"color":"blue","weight":5,"opacity":0.7,"fill":true,"fillColor":"blue","fillOpacity":0.2},null,null,"Loppem<BR><strong>Customer number: <\/strong>31001705<BR><strong> Recommended duration of visit (h): <\/strong>0.25<BR><strong> Recommended sequence visit: <\/strong>2<BR><strong> Value of the customer: <\/strong>2900<BR><strong> Quadrant: <\/strong>StatusQuo<BR><strong> Top: <\/strong>Never<BR><strong> New customer: <\/strong>FALSE<BR><strong> Sleeping customer: <\/strong>FALSE<BR><strong> Segment: <\/strong>A10<BR><strong> Order trend: <\/strong>-1.29<BR><strong> Profit trend: <\/strong>-19.26",null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addCircleMarkers","args":[51.2564190468675,3.29573449544724,1,null,null,{"interactive":true,"className":"","stroke":true,"color":"blue","weight":5,"opacity":0.7,"fill":true,"fillColor":"blue","fillOpacity":0.2},null,null,"Damme<BR><strong>Customer number: <\/strong>31009733<BR><strong> Recommended duration of visit (h): <\/strong>0.5<BR><strong> Recommended sequence visit: <\/strong>3<BR><strong> Value of the customer: <\/strong>12837<BR><strong> Quadrant: <\/strong>StatusQuo<BR><strong> Top: <\/strong>New<BR><strong> New customer: <\/strong>TRUE<BR><strong> Sleeping customer: <\/strong>FALSE<BR><strong> Segment: <\/strong>A10<BR><strong> Order trend: <\/strong>0.14<BR><strong> Profit trend: <\/strong>205.71",null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addCircleMarkers","args":[51.1499333233871,3.06394210340209,1,null,null,{"interactive":true,"className":"","stroke":true,"color":"blue","weight":5,"opacity":0.7,"fill":true,"fillColor":"blue","fillOpacity":0.2},null,null,"Bekegem<BR><strong>Customer number: <\/strong>37837<BR><strong> Recommended duration of visit (h): <\/strong>0.25<BR><strong> Recommended sequence visit: <\/strong>4<BR><strong> Value of the customer: <\/strong>8925<BR><strong> Quadrant: <\/strong>Decrease<BR><strong> Top: <\/strong>Remain<BR><strong> New customer: <\/strong>FALSE<BR><strong> Sleeping customer: <\/strong>FALSE<BR><strong> Segment: <\/strong>A10<BR><strong> Order trend: <\/strong>-0.46<BR><strong> Profit trend: <\/strong>235.37",null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addCircleMarkers","args":[51.13553,3.140447,1,null,null,{"interactive":true,"className":"","stroke":true,"color":"black","weight":5,"opacity":0.7,"fill":true,"fillColor":"black","fillOpacity":0.2},null,null,"(departure) depot",null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[51.0575218936485,51.2564190468675],"lng":[2.72460719201221,3.29573449544724]}},"evals":[],"jsHooks":[]}</script>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
